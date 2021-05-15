@@ -3,4 +3,4 @@ from .models import *
 # Register your models here.
 admin.site.register(Person)
 admin.site.register(Timetabels)
-admin.site.register(Build)
+# admin.site.register(Build)

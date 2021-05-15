@@ -27,8 +27,8 @@ class Person(models.Model):
     def __str__(self):
         return str(self.user_id)
 
-class Build(models.Model):
-    mill = models.CharField(max_length=20)
-    def __str__(self):
-        return self.mill
+# class Build(models.Model):
+#     mill = models.CharField(max_length=20)
+#     def __str__(self):
+#         return self.mill
 

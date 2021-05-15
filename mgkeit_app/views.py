@@ -1,16 +1,21 @@
 # from django.shortcuts import render
+from django.db.models.expressions import F
+from django.http.response import HttpResponse, JsonResponse
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from django.forms.models import model_to_dict
 from .serializers import *
 from .models import *
+import json
+from django.core import serializers
 # Create your views here.
 
 
 class PersonView(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     def get(self, request, pk=None):
         if pk is None:
             persons = Person.objects.all()
@@ -48,8 +53,13 @@ class PersonView(APIView):
 class TimetableView(APIView):
     def get(self, request, pk=None):
         if pk is None:
-            serializer = TimetableSerializer(Timetabels.objects.all(), many=True)
-            return Response({"timetables": serializer.data})
+            # serializer = TimetableSerializer(Timetabels.objects.all(), many=True)
+            data = serializers.serialize('json', Timetabels.objects.all())
+            struct = json.loads(data)
+            for obj in struct:
+                timetable = obj['fields']['timetable'].split("\r\n")
+                obj['fields']['timetable'] = timetable
+            return JsonResponse({"res": struct})
         # else:
         #     def destruct():
         #         args = pk.split('&')
