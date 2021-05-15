@@ -1,12 +1,12 @@
 # from django.shortcuts import render
 from django.db.models.expressions import F
-from django.http.response import HttpResponse, JsonResponse
+from django.http.response import HttpResponse, HttpResponseNotFound, JsonResponse
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from django.forms.models import model_to_dict
+from django.http import Http404
 from .serializers import *
 from .models import *
 import json
@@ -61,14 +61,15 @@ class TimetableView(APIView):
                 obj['fields']['timetable'] = timetable
             return JsonResponse({"res": struct})
         # else:
-        #     def destruct():
-        #         args = pk.split('&')
-        #         for el in args:
-        #             i = el.split('=')
-        #             if i == 'course':
-        #                 pass
-                # return ', '.join(args)
-
-            # print(destruct())
-            # serializer = TimetableSerializer()
-            # return Response({'timetable': serializer.data })
+        #     r = pk.split("&")
+        #     data = serializers.serialize('json', Timetabels.objects.all())
+        #     struct = json.loads(data)
+        #     for obj in struct:
+        #         print(obj)
+        #         day = obj['fields']['day_week']
+        #         course = obj['fields']['course_id']
+        #         odd = obj['fields']['is_odd']
+        #         if day == int(r[0]) and course == int(r[1]) and odd == bool(r[2]):
+        #             return JsonResponse({"res": obj})
+        #         else:
+        #             return HttpResponseNotFound()
